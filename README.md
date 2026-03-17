@@ -1,96 +1,96 @@
-# FMCG Sales Forecasting using ARIMA
+# Sales Forecasting FMCG menggunakan ARIMA
 
-## 📌 Project Overview
-This project presents a comprehensive time-series analysis and forecasting model for a Fast-Moving Consumer Goods (FMCG) company, specializing in food products and frozen foods. Using historical transaction data spanning daily sales in 2024, the objective is to uncover sales patterns, analyze product performance across different regional markets, and construct a robust predictive model (ARIMA) to forecast future sales quantities.
+## 📌 Deskripsi Proyek
+Proyek ini menyajikan analisis deret waktu (time-series) yang komprehensif dan model Forecasting untuk perusahaan Fast-Moving Consumer Goods (FMCG), yang mengkhususkan diri pada produk makanan dan makanan beku (frozen food). Menggunakan data transaksi historis penjualan harian di tahun 2024, tujuannya adalah untuk mengungkap pola penjualan, menganalisis performa produk di berbagai pasar regional, dan membangun model prediksi yang kuat (ARIMA) untuk melakukan Forecasting kuantitas penjualan di masa depan.
 
-> **Note on Data Privacy:** The dataset (`anonymized_data.csv`) and notebook (`Forecast_Arima_Anonymized.ipynb`) in this repository have been anonymized. Sensitive information such as Customer Names, Salesperson Names, PICs, and specific Company Brands have been replaced with placeholders or generalized terms to protect business privacy, while fully retaining the statistical distribution and data utility for modeling.
-
----
-
-## 💼 Business Problem (Business Analyst POV)
-
-In the highly competitive FMCG and Frozen Food industry, balancing supply chain operations with fluctuating market demand is the ultimate challenge. The core business problems addressed in this project are:
-
-1. **Demand Uncertainty & Supply Chain Bottlenecks:** 
-   Fluctuations in daily sales lead to either **stockouts** (missed revenue and customer dissatisfaction) or **overstocking** (increased holding costs and potential food waste).
-2. **Resource Allocation:** 
-   Without data, it is difficult to determine which provinces, cities, and product lines drive the most impactful revenue, making targeted marketing and sales team deployment inefficient.
-3. **Reactive vs. Proactive Inventory Management:** 
-   Relying purely on historical moving averages or gut feeling limits the company's ability to prepare for sudden surges in B2B/B2C demand.
-
-**Business Objective:**  
-To transform sales data into actionable business intelligence by identifying core markets and creating a predictive engine (ARIMA) that allows the business to anticipate demand volume days in advance.
+> **Catatan Privasi Data:** Dataset (`anonymized_data.csv`) dan notebook (`Forecast_Arima_Anonymized.ipynb`) dalam repositori ini telah dianonimkan. Informasi sensitif seperti Nama Pelanggan, Nama Salesman, PIC, dan Merek Perusahaan tertentu telah diganti dengan placeholder atau istilah umum untuk melindungi privasi bisnis, sambil tetap mempertahankan distribusi statistik dan kegunaan data untuk pemodelan.
 
 ---
 
-## 🔬 Exploratory Data Analysis & Insights (Data Analyst POV)
+## 💼 Masalah Bisnis (Perspektif Business Analyst)
 
-Before forecasting, a deep dive into the transaction data generated several strategic insights:
+Dalam industri FMCG dan Frozen Food yang sangat kompetitif, menyeimbangkan operasional rantai pasok (supply chain) dengan fluktuasi permintaan pasar adalah tantangan utama. Masalah bisnis inti yang dibahas dalam proyek ini adalah:
 
-### 1. Market Penetration (Geospatial Analysis)
-- **Dominant Provinces:** `JAWA TIMUR`, `JAWA BARAT`, and `DKI JAKARTA` generated the absolute majority of revenue. This suggests the company’s distribution network is highly centralized in Java.
-- **Untapped Opportunities:** Regions outside Java (like Sulawesi and Bali) show growing traction but require different supply chain strategies (e.g., localized cold storage) to offset potential logistic bottlenecks.
-- **Recommendation:** Marketing and promotional budgets should be aggressively funneled into sustaining dominance in Java, while secondary campaigns can be tested in Bali and Sulawesi.
+1. **Ketidakpastian Permintaan & Hambatan Rantai Pasok:**
+   Fluktuasi dalam penjualan harian menyebabkan terjadinya **stockout** (kehilangan pendapatan dan ketidakpuasan pelanggan) atau **overstocking** (peningkatan biaya penyimpanan dan potensi pemborosan makanan).
+2. **Alokasi Sumber Daya:**
+   Tanpa data, sulit untuk menentukan provinsi, kota, dan lini produk mana yang memberikan pendapatan paling berdampak, sehingga pemasaran yang ditargetkan dan penyebaran tim penjualan menjadi tidak efisien.
+3. **Manajemen Inventaris Reaktif vs. Proaktif:**
+   Hanya mengandalkan rata-rata bergerak historis atau perasaan (gut feeling) membatasi kemampuan perusahaan untuk bersiap menghadapi lonjakan permintaan B2B/B2C yang tiba-tiba.
 
-### 2. Product Portfolio Performance (The Pareto Principle)
-- Based on the sales quantity and total revenue (Omzet), a small subset of "Main Products" (e.g., *Specific Tortilla* or *Meat* categories) serves as the "cash cow" of the business.
-- **Recommendation:** Ensure these top-performing SKUs *never* experience a stockout. Meanwhile, underperforming SKUs can be bundled with the top-sellers to boost inventory turnover.
-
-### 3. Time Series Behavior
-- **Seasonality & Spikes:** Daily aggregated sales exhibit volatile variations, heavily influenced by sudden "bulk orders" from B2B partners (e.g., wholesalers, hotels). 
-- **Outlier Detection:** Applying Statistical Z-Scores helped identify these extreme baseline anomalies. Smoothing these outliers was a critical step so the ARIMA model wouldn't "learn" a rare anomaly as a standard recurring pattern.
+**Tujuan Bisnis:**
+Mengubah data penjualan menjadi kecerdasan bisnis yang dapat ditindaklanjuti dengan mengidentifikasi pasar utama dan menciptakan mesin prediksi (ARIMA) yang memungkinkan bisnis untuk mengantisipasi volume permintaan beberapa hari sebelumnya.
 
 ---
 
-## ⚙️ Solution Architecture & Modeling (Data Scientist POV)
+## 🔬 Exploratory Data Analysis & Insights (Perspektif Data Analyst)
 
-To predict future demand, an end-to-end data pipeline was implemented focusing on statistical Time Series forecasting:
+Sebelum melakukan Forecasting, analisis mendalam terhadap data transaksi menghasilkan beberapa wawasan strategis:
 
-### 1. Data Preprocessing
-- Aggregated thousands of daily transactional orders into a continuous daily time-series format (`Date` vs `Total Quantity`).
-- Handled missing timeline gaps with linear interpolation.
+### 1. Penetrasi Pasar (Analisis Geospasial)
+- **Provinsi Dominan:** `JAWA TIMUR`, `JAWA BARAT`, dan `DKI JAKARTA` menghasilkan mayoritas pendapatan mutlak. Ini menunjukkan bahwa jaringan distribusi perusahaan sangat tersentralisasi di Pulau Jawa.
+- **Peluang yang Belum Terjamah:** Wilayah di luar Jawa (seperti Sulawesi dan Bali) menunjukkan daya tarik yang meningkat tetapi membutuhkan strategi rantai pasok yang berbeda (misalnya, penyimpanan dingin lokal) untuk mengimbangi potensi hambatan logistik.
+- **Rekomendasi:** Anggaran pemasaran dan promosi harus disalurkan secara agresif untuk mempertahankan dominasi di Jawa, sementara kampanye sekunder dapat diuji di Bali dan Sulawesi.
 
-### 2. Stationarity & Statistical Testing
-- Performed **Augmented Dickey-Fuller (ADF)** and **KPSS** tests to evaluate time-series stationarity. 
-- Differencing ($d$) was applied to stabilize the mean mathematically before feeding the data to the ARIMA algorithm.
+### 2. Performa Portofolio Produk (Prinsip Pareto)
+- Berdasarkan kuantitas penjualan dan total pendapatan (Omzet), sebagian kecil dari "Produk Utama" (misalnya, kategori *Tortilla Spesifik* atau *Daging*) berfungsi sebagai "cash cow" bisnis.
+- **Rekomendasi:** Pastikan SKU berkinerja terbaik ini *tidak pernah* mengalami stockout. Sementara itu, SKU yang kurang berkinerja dapat dibundel dengan produk terlaris untuk meningkatkan perputaran inventaris.
+
+### 3. Perilaku Deret Waktu (Time Series)
+- **Musiman & Lonjakan:** Penjualan agregat harian menunjukkan variasi yang volatil, sangat dipengaruhi oleh "pesanan massal" (bulk orders) mendadak dari mitra B2B (misalnya grosir, hotel).
+- **Deteksi Outlier:** Penerapan Statistical Z-Score membantu mengidentifikasi anomali basis data yang ekstrem ini. Penghalusan outlier ini merupakan langkah kritis agar model ARIMA tidak "mempelajari" anomali langka sebagai pola standar yang berulang.
+
+---
+
+## ⚙️ Arsitektur Solusi & Pemodelan (Perspektif Data Scientist)
+
+Untuk memprediksi permintaan di masa depan, pipeline data end-to-end diimplementasikan dengan fokus pada Forecasting deret waktu statistik:
+
+### 1. Pra-pemrosesan Data
+- Mengagregasi ribuan pesanan transaksional harian ke dalam format deret waktu harian yang berkelanjutan (`Date` vs `Total Quantity`).
+- Menangani celah lini masa yang hilang dengan interpolasi linier.
+
+### 2. Stasioneritas & Pengujian Statistik
+- Melakukan uji **Augmented Dickey-Fuller (ADF)** dan **KPSS** untuk mengevaluasi stasioneritas deret waktu.
+- Differencing ($d$) diterapkan untuk menstabilkan rata-rata secara matematis sebelum memasukkan data ke algoritma ARIMA.
 
 ### 3. ARIMA (Auto-Regressive Integrated Moving Average)
-- Explored different combinations of $p$ (Lag order), $d$ (Degree of differencing), and $q$ (Order of moving average).
-- **Model Evaluation:** The chosen model was optimized by minimizing the **Root Mean Squared Error (RMSE)**.
-- **Forecasting:** The model successfully captured the baseline trend of daily sales, enabling the company to predict baseline restocking needs for the upcoming weeks.
+- Mengeksplorasi berbagai kombinasi $p$ (Lag order), $d$ (Degree of differencing), dan $q$ (Order of moving average).
+- **Evaluasi Model:** Model yang dipilih dioptimalkan dengan meminimalkan **Root Mean Squared Error (RMSE)**.
+- **Forecasting:** Model berhasil menangkap tren dasar penjualan harian, memungkinkan perusahaan untuk memprediksi kebutuhan stok ulang dasar untuk minggu-minggu mendatang.
 
 ---
 
-## 📊 Business Impact & Results
-With carefully tuned ARIMA predictions:
-1. **Cost Efficiency:** Procurement teams can now place raw material orders based on statistically backed forecasts rather than intuition, reducing over-purchasing.
-2. **Operational Resilience:** Production floors can pre-plan staffing and machinery utilization based on expected demand curves.
-3. **Data-Driven Culture:** The notebook translates raw transactional noise into a clean, predictable strategic asset for the company.
+## 📊 Dampak Bisnis & Hasil
+Dengan prediksi ARIMA yang disetel dengan cermat:
+1. **Efisiensi Biaya:** Tim pengadaan sekarang dapat melakukan pesanan bahan baku berdasarkan Forecasting yang didukung secara statistik daripada intuisi, sehingga mengurangi kelebihan pembelian.
+2. **Ketahanan Operasional:** Bagian produksi dapat merencanakan staf dan penggunaan mesin sebelumnya berdasarkan kurva permintaan yang diharapkan.
+3. **Budaya Berbasis Data:** Notebook ini mengubah kebisingan transaksional mentah menjadi aset strategis yang bersih dan dapat diprediksi bagi perusahaan.
 
 ---
 
 ## 🛠️ Tech Stack
-- **Language:** Python 3
-- **Data Manipulation:** `pandas`, `numpy`
-- **Data Visualization:** `matplotlib`, `seaborn`
-- **Statistical Analysis & Forecasting:** `scipy`, `statsmodels.tsa.arima` (ARIMA), `scikit-learn`
+- **Bahasa:** Python 3
+- **Manipulasi Data:** `pandas`, `numpy`
+- **Visualisasi Data:** `matplotlib`, `seaborn`
+- **Analisis Statistik & Forecasting:** `scipy`, `statsmodels.tsa.arima` (ARIMA), `scikit-learn`
 
 ---
 
-## 🚀 How to Run the Project
-1. Clone this repository to your local machine:
+## 🚀 Cara Menjalankan Proyek
+1. Clone repositori ini ke mesin lokal Anda:
    ```bash
    git clone https://github.com/yourusername/forecast-sales-fmcg.git
    ```
-2. Navigate to the project directory:
+2. Arahkan ke direktori proyek:
    ```bash
    cd forecast-sales-fmcg
    ```
-3. Install the required dependencies:
+3. Instal dependensi yang diperlukan:
    ```bash
    pip install pandas numpy matplotlib seaborn scipy statsmodels scikit-learn
    ```
-4. Open and run the Jupyter Notebook:
-   - Launch Jupyter Notebook or open it via VS Code.
-   - Run **`Forecast_Arima_Anonymized.ipynb`**. 
-   - *Note: Don't forget that the notebook relies on `anonymized_data.csv` which is included alongside it in this repository.*
+4. Buka dan jalankan Jupyter Notebook:
+   - Jalankan Jupyter Notebook atau buka melalui VS Code.
+   - Jalankan **`Forecast_Arima_Anonymized.ipynb`**.
+   - *Catatan: Jangan lupa bahwa notebook ini bergantung pada `anonymized_data.csv` yang disertakan bersamanya dalam repositori ini.*
