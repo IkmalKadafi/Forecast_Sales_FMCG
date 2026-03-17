@@ -1,12 +1,12 @@
 # Interpretasi dan Insight dari Forecasting ARIMA
 
-Dokumen ini merangkum analisis, interpretasi, dan insight yang diekstrak dari `Forecast_Arima_Anonymized.ipynb`.
+Dokumen ini merangkum analisis, interpretasi, dan insight yang diambil dari `Forecast_Arima_Anonymized.ipynb`.
 
 ## 1. Exploratory Data Analysis (EDA)
 
 ### **Pendapatan berdasarkan Provinsi dan Kota**
 ![Provinsi Teratas](top_provinces.png)
-- **Provinsi Teratas:** **Jawa Timur** adalah pemimpin mutlak dalam pendapatan penjualan (Omzet), menghasilkan sekitar **Rp 19,3 Miliar** dengan lebih dari 748.000 unit terjual. Diikuti oleh **Jawa Barat** (~Rp 7,5 Miliar), **DKI Jakarta** (~Rp 7,2 Miliar), dan **Bali** (~Rp 5,1 Miliar).
+- **Provinsi Teratas:** **Jawa Timur** memimpin dalam pendapatan penjualan (Omzet), menghasilkan sekitar **Rp 19,3 Miliar** dengan lebih dari 748.000 unit terjual. Diikuti oleh **Jawa Barat** (~Rp 7,5 Miliar), **DKI Jakarta** (~Rp 7,2 Miliar), dan **Bali** (~Rp 5,1 Miliar).
 
 ![Kota Teratas](top_cities.png)
 ![Kota Terendah](bottom_cities.png)
